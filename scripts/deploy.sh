@@ -21,6 +21,7 @@ set -e
 echo ">>> Pulling latest image from ECR"
 aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 418295711710.dkr.ecr.ap-south-1.amazonaws.com
 
+
 IMAGE_URI="418295711710.dkr.ecr.ap-south-1.amazonaws.com/my-project-image:latest"
 
 echo ">>> Stopping old container (if running)"
