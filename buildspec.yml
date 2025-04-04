@@ -66,7 +66,7 @@ phases:
       - export IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - echo "Repository URI: $REPOSITORY_URI"
       - echo "Image Tag: $IMAGE_TAG"
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 418295711710.dkr.ecr.ap-south-1.amazonaws.com
 
   build:
     commands:
