@@ -56,19 +56,22 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 418295711710.dkr.ecr.ap-south-1.amazonaws.com
-      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - REPOSITORY_URI=418295711710.dkr.ecr.ap-south-1.amazonaws.com/my-project-image
+      - export REPOSITORY_URI=418295711710.dkr.ecr.ap-south-1.amazonaws.com/my-project-image
+      - export IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - echo $IMAGE_TAG
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
 
   build:
     commands:
+      - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
       - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
 
   post_build:
     commands:
-      - echo Pushing Docker images to ECR...
+      - echo Build completed on `date`
+      - echo Pushing Docker images...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:latest
       - echo Writing image definition file...
