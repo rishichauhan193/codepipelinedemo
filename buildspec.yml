@@ -72,7 +72,6 @@ phases:
       - docker build -t my-project-image .
       - docker tag my-project-image:latest $REPOSITORY_URI:$IMAGE_TAG
       - docker tag my-project-image:latest $REPOSITORY_URI:latest
-      - echo Docker images built:
       - docker images
 
   post_build:
