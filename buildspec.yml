@@ -56,7 +56,7 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo Installing Node.js dependencies...
+      - echo Installing dependencies...
       - npm install
 
   pre_build:
@@ -69,19 +69,16 @@ phases:
   build:
     commands:
       - echo Building Docker image...
-      - docker build -t my-project-image .
-      - docker tag my-project-image:latest $REPOSITORY_URI:$IMAGE_TAG
-      - docker tag my-project-image:latest $REPOSITORY_URI:latest
-      - docker images
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+      - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
 
   post_build:
     commands:
       - echo Pushing Docker images to ECR...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:latest
-      - echo Creating imagedefinitions.json for CodeDeploy...
+      - echo Writing imagedefinitions.json for CodeDeploy...
       - printf '[{"name":"my-app","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-      - cat imagedefinitions.json
 
 artifacts:
   files:
