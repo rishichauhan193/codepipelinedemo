@@ -49,6 +49,9 @@
 #     - appspec.yml
 #     - scripts/deploy.sh
 
+
+
+
 version: 0.2
 
 phases:
@@ -64,7 +67,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - export REPOSITORY_URI=418295711710.dkr.ecr.ap-south-1.amazonaws.com/my-project-image
       - export IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 418295711710.dkr.ecr.ap-south-1.amazonaws.com
 
   build:
     commands:
